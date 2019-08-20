@@ -26,10 +26,33 @@
 		"prefix": "apex_trigger",
 		"body": [
 			"trigger ${1:TriggerName} on ${2:ObjectName}(before insert, before update, before delete, after insert, after update, after delete) {",
-				"\t\t",
+				"\t${3:ClassNameHandler}.${4:methodName}(Trigger.new, Trigger.old, Trigger.operationType);",
 			"}"
 		],
 		"description": "Apex Trigger Class"
+	},
+	"apex_trigger_handler": {
+		"prefix": "apex_trigger_handler",
+		"body": [
+			"public class ${1:ClassNameTriggerHandler} {",
+				"\tpublic static void ${2:methodName}(List<${3:ObjectName}> ${4:ListName}, List<${3}> ${5:ListNameOldRecords}, System.TriggerOperation triggerEvent) {",
+					"\t\tswitch on triggerEvent {",
+					"\t\t\twhen AFTER_INSERT, AFTER_UPDATE {",
+							"\t\t\t\t",
+					"\t\t\t}",
+					"\t\t\twhen BEFORE_INSERT, BEFORE_UPDATE {",
+							"\t\t\t\t",
+					"\t\t\t}",
+					"\t\t\twhen AFTER_DELETE {",
+							"\t\t\t\t",
+					"\t\t\t}",
+					"\t\t\twhen else {",
+							"\t\t\t\t",
+					"\t\t\t}",
+				"\t}",
+			"}"
+		],
+		"description": "Apex Trigger Handler Class"
 	},
 	"apex_batch": {
 		"prefix": "apex_batch",
@@ -70,6 +93,28 @@
 			"}"
 		],
 		"description": "Apex Queueable Class"
+	},
+	"apex_comparable": {
+		"prefix": "apex_comparable",
+		"body": [
+			"global class ${1:ClassNameWrapper} implements Comparable {",
+				"\tpublic ${2:ObjectType} ${3:publicObjectName};",
+				"\tpublic ${1}(${2} ${4:objectName}) {",
+				"\t\t${3} = ${4};",
+				"\t}",
+				"\tglobal Integer compareTo(Object compareTo) {",
+				   "\t\t${1} compareTo${5:ObjectName} = (${1})compareTo;",
+				   "\t\tInteger returnValue = 0;",
+				   "\t\tif (${3}.${6:FieldName} > compareTo${5}.${3}.${6}) {",
+					"\t\t\treturnValue = 1;",
+					"\t\t} else if (${3}.${6} < compareTo${5}.${3}.${6}) {",
+					"\t\t\treturnValue = -1;",
+					"\t\t}",
+					"\t\treturn returnValue;",
+				"\t}",
+			"}"
+		],
+		"description": "Apex Comparable Class"
 	},
 	"apex_rest": {
 		"prefix": "apex_rest",
